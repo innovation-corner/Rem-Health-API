@@ -1,0 +1,15 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Rem Health API",
+        "description": "APIs for Child Immunization and Reminder",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "contact": {
+            "email": "destinyajakaiye@gmail.com"
+        }
+    }
+}
