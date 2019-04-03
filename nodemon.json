@@ -6,6 +6,7 @@
         "models/",
         "migrations/",
         "routes/",
-        "seeders/"
+        "seeders/",
+        "services/"
     ]
 }

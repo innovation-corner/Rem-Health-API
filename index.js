@@ -6,7 +6,7 @@ const swaggerDocs = require('./swaggerdocs.json');
 const db = require('./config/db.config');
 
 /** Setting up environment variable */
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 
 /** initializing swagger environment */
