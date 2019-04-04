@@ -18,7 +18,6 @@ class Utilities {
 
     static getRegistrationID(state) {
         if(!state) return;
-
         var totalRecords = Math.floor(Math.random() * (100 - 1) + 100);
         if(totalRecords === 0) {
             totalRecords + 1;
@@ -27,7 +26,6 @@ class Utilities {
         }
 
         let regID = "IM"+this.getStateShortCode(state)+totalRecords;
-
         return regID;
     }
 
@@ -41,9 +39,32 @@ class Utilities {
         }
     }
 
-    static getPreferredLanguage(language) {
+    static getPreferredLanguage(language, name, regId) {
         if(!language) return;
+        switch(language) {
+            case "English":
+            return `Hi, ${name}'s has been registered successfully, and his immunization number is ${regId}`;
+            break;
 
+            case "Yoruba":
+            return `Ekaboo, ${name} ka ibi ti a ti aami-ni ifijis. Nmba ajesara r? ni ${regId}`;
+            break;
+
+            case "Igbo":
+            return `Ndewo, e debere aha ${name} nke oma. Nomba ogwu mgbochi ita ce ${regId}`;
+            break;
+
+            case "Hausa":
+            return `Sannu, ${name} ya yi rajista sosai. Lambar shaidar rigakafi ita ce ${regId}`;
+            break;
+
+            case "Pigin":
+            return `Howfa, ${name} birth don register well. e immunization number na ${regId}`
+            break;
+
+            default:
+            break;
+        }
     }
 }
 

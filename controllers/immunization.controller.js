@@ -9,16 +9,17 @@ dotenv.config();
 class ImmunizationRecord {
     static async registerChild(req, res, next) {
         try {
+            let regId = Utility.getRegistrationID(req.body.state);
             let child = new ImmunizationModel();
-            child.registrationId = Utility.getRegistrationID(req.body.state);
+            child.registrationId = regId
             child.phoneNumber = req.body.phone_number;
-            child.fullName = req.body.fullName;
+            child.fullName = req.body.name;
             child.dateOfBirth = new Date(req.body.date_of_birth);
             child.gender = req.body.gender;
             child.state = req.body.state;
             child.preferredLanguage = req.body.language;
 
-            const message = "Hello";
+            const message = Utility.getPreferredLanguage(req.body.language, req.body.name, regId);
 
             child.save().then(data => {
                 smsService.sendSMS(req.body.phone_number, message);
@@ -111,6 +112,10 @@ class ImmunizationRecord {
                     });
                 })
                 .catch(err => res.json({status: 'failed', message: err}));
+            }
+
+            if(req.body.serach_type === "all") {
+
             }
         } catch(err) {
             return res.status(500).json(err);
