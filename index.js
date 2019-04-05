@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swaggerdocs.json');
 const db = require('./config/db.config');
@@ -10,13 +9,6 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 /** set up middlewares */
-app.use(function(req, res, next) {
-    res.header('Origin', false);
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    next();
-});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
