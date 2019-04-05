@@ -3,12 +3,15 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swaggerdocs.json');
 const db = require('./config/db.config');
+const cors = require('cors');
+const routes = require('./routes/index');
 
 /** Setting up environment variable */
 const port = process.env.PORT || 8080;
 const app = express();
 
 /** set up middlewares */
+app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -16,8 +19,7 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /** set up routes {API Endpoints} */
-require('./models/user');
-app.use(require('./routes'));
+app.use('/api/v1', cors(), routes);
 
 /** starting up the server */
 db.sync().then(() => {
