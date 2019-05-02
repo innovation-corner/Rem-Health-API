@@ -33,10 +33,27 @@ class UssdService {
                 Press #:back`
 
             } else if(text === '2') {
-                res = `${SESSION_END}`
+                res = `${SESSION_CONTINUE}Press
+                1. Register
+                2. Find Nearest Primary Health Centres
+                4. Update Registration
+
+                Press #:back`
                 
             } else if(text === '3') {
-                
+                res = `${SESSION_CONTINUE}What's the child's immunization number?
+                e.g. LA123
+
+                Press #:back`
+            } else if (text === '4') {
+                res = `${SESSION_END}You have unsubscribed from Rem Healh Service.
+                To activate again, run immunization update registration. Bye and we hope to see you again.`
+
+            } else if(text === '1*1') {
+                res = `${SESSION_CONTINUE}What's your child's fullname?
+                e.g. Idowu Mohammed Okeke
+
+                Press #:back`
             }
 
             response.set('Content-Type: text/plain');
