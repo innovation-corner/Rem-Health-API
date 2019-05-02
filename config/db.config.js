@@ -6,15 +6,15 @@ dotenv.config();
 
 let sequelize;
 
-if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
+if (process.env.DATABASE_URL) {
 
   /** @type {Sequelize} [database connection for heroku production] */
-  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
-    dialect:  'postgres',
-    protocol: 'postgres',
-    port:     match[4],
-    host:     match[3],
-    logging:  true //false
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      protocol: 'postgres',
+      port: 5432,
+      host: "<heroku host>",
+      logging: true //false
   });
 
 } else {
