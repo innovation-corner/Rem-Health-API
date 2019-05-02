@@ -42,13 +42,8 @@ app.post('/api/v1/ussd/create', (req, res, next) => {
 });
 
 /** starting up the server */
-db.sync().then(() => {
-    console.log('Database Connection established');
-    app.emit('connected');
-    app.listen(port, () => {
-        console.log('Server running on port ' + port);
-    });
-})
-.catch(console.log);
+app.listen(port, () => {
+    console.log('Server running on port ' + port);
+});
 
 module.exports = app;
