@@ -9,9 +9,9 @@ let sequelize;
 if (process.env.DATABASE_URL) {
 
   /** @type {Sequelize} [database connection for heroku production] */
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-      dialect: 'postgres',
-      protocol: 'postgres',
+  sequelize = new Sequelize(process.env.CLEAR_DATABASE_URL, {
+      dialect: 'mysql',
+      protocol: 'mysql',
       port: 5432,
       host: "<heroku host>",
       logging: true //false
