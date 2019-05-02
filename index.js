@@ -2,10 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swaggerdocs.json');
-const db = require('./config/db.config');
 const cors = require('cors');
-const routes = require('./routes/index');
 const ImmunizationController = require('./controllers/immunization.controller');
+const UssdController = require('./controllers/ussd.controller');
 
 /** Setting up environment variable */
 const port = process.env.PORT || 8080;
@@ -38,7 +37,7 @@ app.post('/api/v1/immunization/search-records', (req, res, next) => {
 });
 
 app.post('/api/v1/ussd/create', (req, res, next) => {
-    ImmunizationController.ussd(req, res, next);
+    UssdController.create(req, res, next);
 });
 
 /** starting up the server */

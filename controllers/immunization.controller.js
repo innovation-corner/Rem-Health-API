@@ -7,22 +7,25 @@ const smsService = require('../services/SMSServices');
 dotenv.config();
 
 class ImmunizationRecord {
+
     static async registerChild(req, res, next) {
         try {
-            let regId = Utility.getRegistrationID(req.body.state);
+            const { phone_number, date_of_birth, language, name, state, gender } = req.body;
+            let regId = Utility.getRegistrationID(state);
+
             let child = new ImmunizationModel();
             child.registrationId = regId
-            child.phoneNumber = req.body.phone_number;
-            child.fullName = req.body.name;
-            child.dateOfBirth = new Date(req.body.date_of_birth);
-            child.gender = req.body.gender;
-            child.state = req.body.state;
-            child.preferredLanguage = req.body.language;
+            child.phoneNumber = phone_number;
+            child.fullName = name;
+            child.dateOfBirth = new Date(date_of_birth);
+            child.gender = gender;
+            child.state = state;
+            child.preferredLanguage = language;
 
-            const message = Utility.getPreferredLanguage(req.body.language, req.body.name, regId);
+            const message = Utility.getPreferredLanguage(language, name, regId);
 
             child.save().then(data => {
-                smsService.sendSMS(req.body.phone_number, message);
+                smsService.sendSMS(phone_number, message);
                 res.status(200).json({
                     status: 'success',
                     message: 'Registration was successful',
@@ -119,41 +122,6 @@ class ImmunizationRecord {
             }
         } catch(err) {
             return res.status(500).json(err);
-        }
-    }
-
-    static async ussd(req, response, next) {
-        try {
-            const { sessionId, serviceCode, phoneNumber, text } = req.body
-            const SESSION_CONTINUE = "CON "
-            const SESSION_END = "END "
-            const RESPONSE_CODE = 200
-            let res = ""
-
-            if (text === '') {
-                res = `${SESSION_CONTINUE}Welcome to RemindMe Service
-                Press
-                1. Immunization
-                2. Maternal care
-                3. Hospital
-                4. Confirm Immunization
-                5. Unsubscribe`
-
-            } else if(text === '1') {
-                res = `${SESSION_END}Your phone number is ${phoneNumber}`
-
-            } else if(text === '2') {
-                res = `${SESSION_END}`
-                
-            } else if(text === '3') {
-                
-            }
-
-            response.set('Content-Type: text/plain');
-            response.send(res);
-
-        } catch(err) {
-            return res.status(500).send(err);
         }
     }
 }
