@@ -15,6 +15,7 @@ class UssdService {
             const SESSION_END = "END "
             const RESPONSE_CODE = 200
             let res = ""
+            const data = text.split("*")
 
             if (text === '') {
                 res = `${SESSION_CONTINUE}Welcome to Rem Health Service
@@ -54,6 +55,9 @@ class UssdService {
                 e.g. Idowu Mohammed Okeke
 
                 Press #:back`
+            } else if(data[0] && data[0] !== '') {
+                res = `${SESSION_END}your name is ${data[0]}?`
+                
             }
 
             response.set('Content-Type: text/plain');
