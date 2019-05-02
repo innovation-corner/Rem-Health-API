@@ -37,6 +37,10 @@ app.post('/api/v1/immunization/search-records', (req, res, next) => {
     ImmunizationController.searchRecords(req, res, next);
 });
 
+app.post('/api/v1/ussd/create', (req, res, next) => {
+    ImmunizationController.ussd(req, res, next);
+});
+
 /** starting up the server */
 db.sync().then(() => {
     console.log('Database Connection established');
