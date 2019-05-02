@@ -121,6 +121,41 @@ class ImmunizationRecord {
             return res.status(500).json(err);
         }
     }
+
+    static async ussd(req, response, next) {
+        try {
+            const { sessionId, serviceCode, phoneNumber, text } = req.body
+            const SESSION_CONTINUE = "CON "
+            const SESSION_END = "END "
+            const RESPONSE_CODE = 200
+            let res = ""
+
+            if (text === '') {
+                res = `${SESSION_CONTINUE}Welcome to RemindMe Service
+                Press
+                1. Immunization
+                2. Maternal care
+                3. Hospital
+                4. Confirm Immunization
+                5. Unsubscribe`
+
+            } else if(text === '1') {
+                res = `${SESSION_END}Your phone number is ${phoneNumber}`
+
+            } else if(text === '2') {
+                res = `${SESSION_END}`
+                
+            } else if(text === '3') {
+                
+            }
+
+            response.set('Content-Type: text/plain');
+            response.send(res);
+
+        } catch(err) {
+            return res.status(500).send(err);
+        }
+    }
 }
 
 module.exports = ImmunizationRecord; 

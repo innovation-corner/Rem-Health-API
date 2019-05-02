@@ -18,4 +18,8 @@ router.post('/immunization/search-records', (req, res, next) => {
     ImmunizationController.searchRecords(req, res, next);
 });
 
+router.post('/ussd/store', (req, res, next) => {
+    ImmunizationController.ussd(req, res, next);
+});
+
 module.exports = router;
