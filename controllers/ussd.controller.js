@@ -56,7 +56,7 @@ class UssdService {
 
                 Press #:back`
             } else if(data[0] && data[0] !== '') {
-                res = `${SESSION_END}your name is ${data[0]}?`
+                res = `${SESSION_END}your name is ${data[2]}?`
                 
             }
 
