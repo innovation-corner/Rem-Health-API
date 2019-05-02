@@ -37,7 +37,7 @@ class UssdService {
                 res = `${SESSION_CONTINUE}Press
                 1. Register
                 2. Find Nearest Primary Health Centres
-                4. Update Registration
+                3. Update Registration
 
                 Press #:back`
                 
@@ -55,9 +55,17 @@ class UssdService {
                 e.g. Idowu Mohammed Okeke
 
                 Press #:back`
-            } else if(data[0] && data[0] !== '') {
-                res = `${SESSION_END}your name is ${data[2]}?`
+            } else if(data[2] && data[2] !== '') {
+                res = `${SESSION_CONTINUE}What's your child's gender?
+                e.g. Male
+
+                Press #:back`
                 
+            } else if(data[3] && data[3] !== '') {
+                res = `${SESSION_CONTINUE}What's your current state?
+                e.g. Lagos, Kwara, Abia
+
+                Press #:back`
             }
 
             response.set('Content-Type: text/plain');
