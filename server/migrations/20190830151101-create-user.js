@@ -17,16 +17,16 @@ module.exports = {
           isEmail: { msg: "Invalid email" }
         }
       },
-      phonenumber: {
+      username: {
         type: Sequelize.STRING
       },
-      gender: {
-        type: Sequelize.ENUM("male", "female")
+      password: {
+        type: Sequelize.STRING
       },
-      dob: {
-        type: Sequelize.DATE
+      role: {
+        type: Sequelize.STRING
       },
-      sessionId: {
+      state: {
         type: Sequelize.STRING
       },
       createdAt: {

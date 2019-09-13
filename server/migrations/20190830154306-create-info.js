@@ -23,13 +23,13 @@ module.exports = {
       language: {
         type: Sequelize.STRING
       },
+      state: {
+        type: Sequelize.STRING
+      },
       gender: {
         type: Sequelize.STRING
       },
       immunizationCode: {
-        type: Sequelize.STRING
-      },
-      sessionId: {
         type: Sequelize.STRING
       },
       createdAt: {

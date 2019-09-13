@@ -1,19 +1,23 @@
 const { User } = require("../models");
-const JwtService = require("../modules/auth.module");
-const passport = require("passport");
-const bcrypt = require("bcryptjs");
+// const JwtService = require("../modules/auth.module");
+// const passport = require("passport");
+// const bcrypt = require("bcryptjs");
 
 module.exports = {
   async list(req, res) {
-    const { role } = req.user;
+    try {
+      const { role } = req.user;
 
-    if (role !== "admin") {
-      return res
-        .status(401)
-        .json({ message: "You're not permitted to acces this data" });
+      if (role !== "admin") {
+        return res
+          .status(401)
+          .json({ message: "You're not permitted to access this data" });
+      }
+      const users = await User.findAll({});
+      return res.json(200).json({ message: "Users retrieved", users });
+    } catch (e) {
+      return res.status(400).json({ message: "An error occurred", e });
     }
-    const users = await User.findAll({});
-    return res.json(200).json({message:"Users retrieved", users})
   },
 
   async edit(req, res) {

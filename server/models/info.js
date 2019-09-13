@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       dob: {
         type: DataTypes.STRING,
       },
-      sessionId: {
+      state: {
         type: DataTypes.STRING
       },
       language: {

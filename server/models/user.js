@@ -1,4 +1,5 @@
 "use strict";
+const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -23,17 +24,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: { msg: "email is required" }
+          notNull: { msg: "username is required" }
         },
         unique: {
           args: true,
           msg: "Username already in use!"
         }
       },
-
+      state: {
+        type: DataTypes.STRING
+      },
       role: {
-        type: DataTypes.ENUM('admin','user'),
-        defaultValue: "user",
+        type: DataTypes.ENUM("superAdmin",'nationalAdmin', "stateAdmin", "user"),
+        defaultValue: "user"
       },
       password: {
         type: DataTypes.STRING,
@@ -41,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: "password is required" }
         }
-      },
+      }
     },
     {}
   );

@@ -1,9 +1,42 @@
 const { Info } = require("../models");
+const { User } = require("../models");
+const { Op } = require("sequelize");
 
 module.exports = {
   async list(req, res) {
     try {
-      const data = await Info.findAll({});
+      let criteria = {};
+      const { search, perPage, currentPage } = req.query;
+      const { id } = req.user;
+      const user = await User.findOne({ where: { id } });
+
+      if (user.role !== "superAdmin" && user.role !== "nationalAdmin") {
+        criteria = { state: user.state };
+      }
+
+      if (search) {
+        criteria[Op.or] = [
+          { name: { [Op.like]: "%" + search + "%" } },
+          { phonenumber: search },
+          { createdAt: search },
+          { dob: search },
+          { language: search },
+          { gender: search },
+          { immunizationCode: search }
+        ];
+      }
+
+      const offset = currentPage * perPage || 0;
+      const data = await Info.findAndCountAll({
+        where: criteria,
+        limit: perPage,
+        offset
+      });
+
+      if (!data.rows.length) {
+        return res.status(400).json({ message: "No data" });
+      }
+
       return res.json({ message: "Data retrieved", data });
     } catch (e) {
       return res.status(400).json({ message: "An error occurred", e });

@@ -1,27 +1,39 @@
-var http = require("http");
+const request = require("request");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+let mainData = {
+  token: process.env.sms_token,
+  message: "",
+  routing: 4,
+  to: "",
+  sender: "",
+  type: 0
+};
 
 module.exports = {
-  mainOptions: {
-    token: process.env.sms_token,
-    method: "POST",
-    host: process.env.sms_base_url,
-    path: "/",
-    message: "",
-    routing: 4,
-    to: "",
-    sender: "",
-    type: 0
-  },
-
   async sendSms(message, sender, recipients) {
-    const options = Object.assign({}, this.mainOption);
+    try {
+      const url = process.env.sms_base_url;
+      mainData.to = recipients;
+      mainData.sender = sender || "Remind Me";
+      mainData.message = message;
 
-    options.to = recipients;
-    options.sender = sender || "Remind Me";
-    options.message = message;
+      console.log("----------------begin sending sms----------------", message);
 
-    await http.request(options,(res)=>{
-        console.log(res)
-    })
+      await request.post(url, { form: mainData }, (e, res, body) => {
+        if (e) {
+          console.log("----------------error sending sms----------------", e);
+          return;
+        }
+        console.log("body", body);
+        console.log("----------------sent sms----------------");
+      });
+
+      console.log("----------------done sending sms----------------");
+    } catch (e) {
+      console.log("----------------error sending sms----------------", e);
+    }
   }
 };

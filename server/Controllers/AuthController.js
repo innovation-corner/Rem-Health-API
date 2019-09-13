@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   async register(req, res) {
     try {
-      const { email, username, password, role, name } = req.body;
+      const { email, username, password, role, name, state } = req.body;
 
       const checkUserEmail = await User.findOne({
         where: { email }
@@ -28,19 +28,24 @@ module.exports = {
         username,
         name,
         password,
-        role
+        role,
+        state
       };
       const user = await User.create(data);
       const token = await JwtService.issueToken({
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        role: user.role
       });
+
       const responseObj = { user, token };
+
       return res
         .status(200)
         .json({ message: "registration successful", responseObj });
     } catch (e) {
+      console.log(e);
       return res.status(400).json({ message: "An error occured", e });
     }
   },
@@ -56,8 +61,9 @@ module.exports = {
 
         const token = await JwtService.issueToken({
           id: user.id,
-          role: user.role,
-          email: user.email
+          username: user.username,
+          email: user.email,
+          role: user.role
         });
         const responseObj = { user };
         responseObj.token = token;
@@ -158,6 +164,8 @@ module.exports = {
       return res
         .status(200)
         .json({ message: "Password reset successfully", user });
-    } catch {}
+    } catch (e) {
+      return res.status(400).json({ message: "An error occured" });
+    }
   }
 };
